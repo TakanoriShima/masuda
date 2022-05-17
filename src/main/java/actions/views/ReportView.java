@@ -42,4 +42,5 @@ public class ReportView {
 
     private LocalTime endTime;
 
+
 }

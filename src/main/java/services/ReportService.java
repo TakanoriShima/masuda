@@ -8,6 +8,8 @@ import actions.views.EmployeeView;
 import actions.views.ReportConverter;
 import actions.views.ReportView;
 import constants.JpaConst;
+import models.Employee;
+import models.Favorite;
 import models.Report;
 import models.validators.ReportValidator;
 
@@ -153,6 +155,20 @@ public class ReportService extends ServiceBase {
         ReportConverter.copyViewToModel(r, rv);
         em.getTransaction().commit();
 
+    }
+
+    public List<Favorite> getFavorites(Report r){
+    	List<Favorite> fav_list = em.createNamedQuery(JpaConst.Q_FAV_GET_ALL_MINE, Favorite.class).setParameter("report", r).getResultList();
+    	return fav_list;
+    }
+
+    public boolean getFavoritesFlag(Employee e, Report r){
+    	List<Favorite> fav_list = em.createNamedQuery(JpaConst.Q_FAV_BY_EMPLOYEE_AND_REPORT, Favorite.class).setParameter("employee", e).setParameter("report", r).getResultList();
+    	if(fav_list.size() != 0) {
+    		return true;
+    	}else {
+    		return false;
+    	}
     }
 
 }
